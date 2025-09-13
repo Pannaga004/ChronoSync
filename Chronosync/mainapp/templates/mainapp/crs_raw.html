@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raw Data CRS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+        }
+        .form-card {
+            background-color: #1f2937;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .report-section {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .loading-spinner {
+            display: none;
+            border-top-color: #a78bfa;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'discover' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back</a>
+                <a href="{% url 'home' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-6">
+                Raw Data CRS
+            </h1>
+            <p class="text-lg text-gray-400 mb-8">
+                Log your sleep and mood to get an instant report and personalized suggestions.
+            </p>
+        </div>
+
+        <div id="quiz-form-container" class="form-card p-8">
+            <form id="raw-data-form" class="space-y-6 text-left">
+                <div>
+                    <label for="sleep_time" class="block text-gray-400">1. What time did you go to bed last night?</label>
+                    <input type="time" id="sleep_time" name="sleep_time" class="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label for="wake_time" class="block text-gray-400">2. What time did you wake up this morning?</label>
+                    <input type="time" id="wake_time" name="wake_time" class="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label for="mood" class="block text-gray-400">3. How was your mood when you woke up?</label>
+                    <select id="mood" name="mood" class="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                        <option value="">-- Select an option --</option>
+                        <option value="great">Great! ✨</option>
+                        <option value="good">Good 😊</option>
+                        <option value="okay">Okay 👍</option>
+                        <option value="tired">Tired 😴</option>
+                        <option value="bad">Bad 🙁</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="caffeine" class="block text-gray-400">4. How many cups of caffeine did you have after 2 PM?</label>
+                    <input type="number" id="caffeine" name="caffeine" class="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600" value="0" required>
+                </div>
+                <div>
+                    <label for="stress" class="block text-gray-400">5. How would you rate your stress level today?</label>
+                    <select id="stress" name="stress" class="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                        <option value="">-- Select an option --</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button type="button" onclick="generateReport()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                        Get My Report
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="report-section" class="report-section form-card mt-8 p-8">
+            <div id="report-content">
+                <div class="flex justify-center">
+                    <div id="loading-spinner" class="w-8 h-8 rounded-full border-4 loading-spinner"></div>
+                </div>
+                <div id="report-text" class="mt-4 text-center">
+                    </div>
+                <div class="text-center mt-8">
+                    <a href="{% url 'crs_raw' %}" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                        Log Another Day
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-gray-900 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function generateReport() {
+            const form = document.getElementById('raw-data-form');
+            if (form.checkValidity()) {
+                const sleepTime = document.getElementById('sleep_time').value;
+                const wakeTime = document.getElementById('wake_time').value;
+                const mood = document.getElementById('mood').value;
+                const caffeine = parseInt(document.getElementById('caffeine').value);
+                const stress = document.getElementById('stress').value;
+
+                const formContainer = document.getElementById('quiz-form-container');
+                const reportSection = document.getElementById('report-section');
+                const loadingSpinner = document.getElementById('loading-spinner');
+                const reportText = document.getElementById('report-text');
+
+                formContainer.style.display = 'none';
+                reportSection.style.display = 'block';
+                loadingSpinner.style.display = 'block';
+                reportText.innerHTML = '';
+
+                let message = "";
+                let sleepHours = getSleepHours(sleepTime, wakeTime);
+
+                if (sleepHours >= 7 && sleepHours <= 9) {
+                    if (mood === 'great' || mood === 'good') {
+                        message = `<h2 class="text-3xl font-bold text-white mb-2">Great job!</h2>
+                                   <p class="text-lg text-gray-400">It looks like you've had a great day! Your body and mind are in sync, and your ${sleepHours}-hour sleep window is right on track. Keep up the wonderful work!</p>`;
+                    } else {
+                        message = `<h2 class="text-3xl font-bold text-white mb-2">You're on the right track!</h2>
+                                   <p class="text-lg text-gray-400">It seems you got a good amount of sleep (${sleepHours} hours), but your mood could use a boost. Remember to listen to your body and give yourself a break today.</p>`;
+                    }
+                } else if (sleepHours < 7) {
+                    message = `<h2 class="text-3xl font-bold text-white mb-2">A gentle nudge.</h2>
+                               <p class="text-lg text-gray-400">Your ${sleepHours}-hour sleep window is a bit short. Try to get to bed a little earlier tonight. A consistent sleep schedule is key to feeling your best!</p>`;
+                } else {
+                    message = `<h2 class="text-3xl font-bold text-white mb-2">You're doing great!</h2>
+                               <p class="text-lg text-gray-400">Wow, that's a lot of sleep! While rest is important, too much can sometimes throw your rhythm off. Listen to your body and find your ideal balance.</p>`;
+                }
+
+                if (caffeine > 0 && stress === 'high') {
+                    message += `<p class="mt-4 text-sm text-gray-500"><strong>Note:</strong> High stress combined with caffeine late in the day may be affecting your sleep quality.</p>`;
+                } else if (caffeine > 0) {
+                    message += `<p class="mt-4 text-sm text-gray-500"><strong>Note:</strong> Be mindful of caffeine intake after 2 PM, as it can disrupt your natural sleep cycle.</p>`;
+                }
+
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+                    reportText.innerHTML = message;
+                }, 1500);
+
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        function getSleepHours(bedtime, waketime) {
+            const bed = new Date(`2000-01-01T${bedtime}:00`);
+            const wake = new Date(`2000-01-01T${waketime}:00`);
+            let diffMs = wake - bed;
+            if (diffMs < 0) {
+                diffMs += 24 * 60 * 60 * 1000;
+            }
+            return Math.round(diffMs / 1000 / 60 / 60);
+        }
+    </script>
+</body>
+</html>

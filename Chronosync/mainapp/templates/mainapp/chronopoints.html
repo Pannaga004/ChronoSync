@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoPoints - ChronoSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+        }
+        .glow-effect {
+            box-shadow: 0 0 10px 5px rgba(124, 58, 237, 0.5), 0 0 20px 10px rgba(124, 58, 237, 0.3);
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .glow-effect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px 7px rgba(124, 58, 237, 0.7), 0 0 30px 15px rgba(124, 58, 237, 0.5);
+        }
+        .trophy-icon {
+            color: #d1d5db;
+        }
+        .trophy-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0% {
+                filter: drop-shadow(0 0 3px rgba(167, 139, 250, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.8));
+            }
+            100% {
+                filter: drop-shadow(0 0 3px rgba(167, 139, 250, 0.5));
+            }
+        }
+
+        /* New styles for badge cards */
+        .badge-card {
+            background-color: #1f2937;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            border: 2px solid transparent; /* Base border for effect */
+            position: relative;
+            overflow: hidden;
+        }
+        .badge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 1rem;
+            padding: 2px; /* width of the glow */
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.5), rgba(124, 58, 237, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        .badge-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        .badge-card:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <a href="{% url 'dashboard' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Dashboard</a>
+                <a href="{% url 'logout' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="inline-flex items-center space-x-4 mb-8">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+                    Your ChronoPoints
+                </h1>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-purple-400 trophy-icon trophy-glow">
+                    <path fill-rule="evenodd" d="M11.54 22.351a.75.75 0 0 0 1.08 0l3.75-3.75a.75.75 0 0 0-.215-1.047L14.25 16.5H20.25a.75.75 0 0 0 .75-.75V4.5a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v11.25c0 .025.011.05.021.075l3.75 3.75h.008ZM12 11.25v2.25m-1.5 0h3m-6-1.5h3m-3-3h3m-3-3h3m-3-3h3" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <p class="text-lg text-gray-400 mb-8">
+                This is where you can track your progress, view your achievements, and earn points for maintaining a healthy circadian rhythm!
+            </p>
+            
+            <div class="mt-12 p-8 bg-gray-800 rounded-lg shadow-md max-w-2xl mx-auto glow-effect">
+                <h2 class="text-2xl font-bold text-purple-400 mb-4">Your Progress</h2>
+                <div class="flex justify-between items-center text-xl font-semibold mb-2">
+                    <span>Total ChronoPoints:</span>
+                    <span class="text-white">1,250</span>
+                </div>
+                <div class="flex justify-between items-center text-xl font-semibold">
+                    <span>Current Streak:</span>
+                    <span class="text-white">7 Days</span>
+                </div>
+            </div>
+
+            <div class="mt-8 p-8 bg-gray-800 rounded-lg shadow-md max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-purple-400 mb-6">Achieved Badges</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="badge-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-yellow-400 mx-auto">
+                            <path fill-rule="evenodd" d="M11.54 22.351a.75.75 0 0 0 1.08 0l3.75-3.75a.75.75 0 0 0-.215-1.047L14.25 16.5H20.25a.75.75 0 0 0 .75-.75V4.5a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v11.25c0 .025.011.05.021.075l3.75 3.75h.008ZM12 11.25v2.25m-1.5 0h3m-6-1.5h3m-3-3h3m-3-3h3m-3-3h3" clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-xs font-semibold mt-2 text-white">Chrono Pioneer</p>
+                    </div>
+
+                    <div class="badge-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-purple-400 mx-auto">
+                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 15a.75.75 0 0 0-.75.75v2.25a.75.75 0 0 0 1.5 0v-2.25a.75.75 0 0 0-.75-.75Zm0-15a.75.75 0 0 0-.75.75v2.25a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75ZM18.75 13.5a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75Zm-15 0a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Zm9-4.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-xs font-semibold mt-2 text-white">Morning Master</p>
+                    </div>
+
+                    <div class="badge-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-teal-400 mx-auto">
+                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 15a.75.75 0 0 0-.75.75v2.25a.75.75 0 0 0 1.5 0v-2.25a.75.75 0 0 0-.75-.75Zm0-15a.75.75 0 0 0-.75.75v2.25a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75ZM18.75 13.5a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75Zm-15 0a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Zm9-4.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-xs font-semibold mt-2 text-white">Deep Sleep Defender</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-gray-900 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

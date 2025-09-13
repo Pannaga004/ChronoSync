@@ -1,0 +1,413 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - ChronoSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+            overflow-x: hidden;
+        }
+        .glow-effect {
+            box-shadow: 0 0 10px 5px rgba(124, 58, 237, 0.5), 0 0 20px 10px rgba(124, 58, 237, 0.3);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 15px 7px rgba(124, 58, 237, 0.7), 0 0 30px 15px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Horizontal Scroll Gallery */
+        .horizontal-gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 2rem 0;
+            width: 100%;
+        }
+        .horizontal-gallery::-webkit-scrollbar {
+            display: none;
+        }
+        .gallery-item {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            box-sizing: border-box;
+            width: 700px; /* Wider fixed width for the card container */
+            height: 400px; /* Reduced fixed height for the card container */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1.5rem; /* Spacing between cards */
+        }
+        .gallery-item-inner {
+            background-color: #1f2937;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden; /* Hide overflow to prevent internal scrolling */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute content nicely */
+            position: relative;
+        }
+        .gallery-item-inner:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px 10px rgba(124, 58, 237, 0.5), 0 0 40px 20px rgba(124, 58, 237, 0.3);
+        }
+        .category-heading {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #a78bfa;
+            text-align: center;
+            margin-bottom: 1rem; /* Reduced margin */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .feature-list {
+            list-style: none; /* Remove default bullet points */
+            padding-left: 0;
+            font-size: 0.9rem; /* Smaller font for lists */
+            text-align: left;
+            margin-top: 1rem;
+            flex-grow: 1; /* Allow list to take available space */
+            display: flex;
+            flex-wrap: wrap; /* Allow features to wrap */
+            gap: 0.5rem 1rem; /* Space between list items */
+        }
+        .feature-list li {
+            width: calc(50% - 0.5rem); /* Two columns */
+        }
+        .feature-list h3 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        .feature-list p {
+            font-size: 0.75rem;
+        }
+
+        /* AI Image Styling */
+        .ai-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            opacity: 0.15; /* Subtle background */
+            z-index: 0; /* Behind text */
+        }
+        .ai-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(50%); /* Darken and desaturate */
+        }
+        .text-content {
+            position: relative;
+            z-index: 1; /* Above image */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            font-size: 3rem;
+            color: #a78bfa;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            opacity: 0.7;
+        }
+        .nav-arrow:hover {
+            color: #d1d5db;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-arrow.left {
+            left: 1rem;
+        }
+        .nav-arrow.right {
+            right: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <a href="{% url 'home' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back to Home</a>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-6">
+                Explore All Features
+            </h1>
+            <p class="text-lg text-gray-400 mb-12">
+                Swipe or use the arrows to discover all the ways ChronoSync optimizes your well-being.
+            </p>
+
+            <div class="horizontal-gallery-container relative max-w-7xl mx-auto">
+                <div class="horizontal-gallery" id="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Advanced Features</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Jet Lag Mode</h3><p class="text-gray-400">Helps frequent travelers shift rhythms before flights.</p></li>
+                                    <li><h3 class="font-semibold text-white">Smart Home Integration</h3><p class="text-gray-400">Syncs smart lights and sounds with circadian cues.</p></li>
+                                    <li><h3 class="font-semibold text-white">Corporate Wellness Dashboard</h3><p class="text-gray-400">Aggregate data for employers to improve shift scheduling.</p></li>
+                                    <li><h3 class="font-semibold text-white">Healthcare Mode</h3><p class="text-gray-400">Support for conditions like insomnia and ADHD.</p></li>
+                                    <li><h3 class="font-semibold text-white">AI-Powered Nudges</h3><p class="text-gray-400">Proactive, real-time tips based on live biometric data.</p></li>
+                                    <li><h3 class="font-semibold text-white">Gamified Habit Builder</h3><p class="text-gray-400">Transform healthy habits into a game with rewards.</p></li>
+                                    <li><h3 class="font-semibold text-white">Genetic Analysis</h3><p class="text-gray-400">Integrates DNA data for precise chronotype predictions.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Mind & Moodfulness</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Mood Journaling AI</h3><p class="text-gray-400">AI sentiment analysis from your journal entries.</p></li>
+                                    <li><h3 class="font-semibold text-white">Personalized Soundscapes</h3><p class="text-gray-400">Custom audio for relaxation and focus.</p></li>
+                                    <li><h3 class="font-semibold text-white">Stress-Reduction Recipes</h3><p class="text-gray-400">Nutrient-rich meals to calm the mind.</p></li>
+                                    <li><h3 class="font-semibold text-white">Cognitive Behavioral Tech</h3><p class="text-gray-400">Guided exercises for mental well-being.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Core Enhancements</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Smart Alarm</h3><p class="text-gray-400">Wakes you in lightest sleep phase.</p></li>
+                                    <li><h3 class="font-semibold text-white">Chronotype Scheduling</h3><p class="text-gray-400">Optimal times for work, study, exercise.</p></li>
+                                    <li><h3 class="font-semibold text-white">Dynamic CRS</h3><p class="text-gray-400">Hourly energy predictions.</p></li>
+                                    <li><h3 class="font-semibold text-white">Sleep Debt Tracker</h3><p class="text-gray-400">Calculates debt & recovery plan.</p></li>
+                                    <li><h3 class="font-semibold text-white">Blue-Light Tracker</h3><p class="text-gray-400">Warns if screen time exceeds safe levels.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Personalization & Coaching</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">AI Circadian Coach</h3><p class="text-gray-400">Tailored advice for your fatigue.</p></li>
+                                    <li><h3 class="font-semibold text-white">Adaptive Recommendations</h3><p class="text-gray-400">Advice adjusts as you log habits.</p></li>
+                                    <li><h3 class="font-semibold text-white">Mind-Body Integration</h3><p class="text-gray-400">Mood journaling + guided meditations.</p></li>
+                                    <li><h3 class="font-semibold text-white">Personal Challenges</h3><p class="text-gray-400">"7-day screen curfew" streaks.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Data & Visualization Upgrades</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Sun Path Visualizer</h3><p class="text-gray-400">Progress bar for daylight cycle.</p></li>
+                                    <li><h3 class="font-semibold text-white">ChronoHeatmap</h3><p class="text-gray-400">Weekly sleep/wake pattern visualization.</p></li>
+                                    <li><h3 class="font-semibold text-white">Energy Curve Graph</h3><p class="text-gray-400">Predicts "focus vs fatigue" hours.</p></li>
+                                    <li><h3 class="font-semibold text-white">Caffeine Metabolism</h3><p class="text-gray-400">Tracks how long caffeine is active.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Mood & Mindfulness</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Mood Journaling AI</h3><p class="text-gray-400">AI sentiment analysis from your journal entries.</p></li>
+                                    <li><h3 class="font-semibold text-white">Personalized Soundscapes</h3><p class="text-gray-400">Custom audio for relaxation and focus.</p></li>
+                                    <li><h3 class="font-semibold text-white">Stress-Reduction Recipes</h3><p class="text-gray-400">Nutrient-rich meals to calm the mind.</p></li>
+                                    <li><h3 class="font-semibold text-white">Cognitive Behavioral Tech</h3><p class="text-gray-400">Guided exercises for mental well-being.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Nutrition & Hydration Sync</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Hydration Reminders</h3><p class="text-gray-400">Smart reminders based on activity and weather.</p></li>
+                                    <li><h3 class="font-semibold text-white">Meal Timing Suggestions</h3><p class="text-gray-400">Optimizes meal times for better digestion and sleep.</p></li>
+                                    <li><h3 class="font-semibold text-white">AI Food Logging</h3><p class="text-gray-400">Intelligent food logging with nutritional insights.</p></li>
+                                    <li><h3 class="font-semibold text-white">Energy-Boosting Recipes</h3><p class="text-gray-400">Recipes for sustained energy and focus.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Activity & Harmony</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Smart Lighting Integration</h3><p class="text-gray-400">Syncs home lights with your circadian rhythm.</p></li>
+                                    <li><h3 class="font-semibold text-white">Temperature & Humidity Recs</h3><p class="text-gray-400">Optimizes room conditions for better sleep.</p></li>
+                                    <li><h3 class="font-semibold text-white">Personalized Fresh Air Reminders</h3><p class="text-gray-400">Nudges for optimal outdoor light exposure.</p></li>
+                                    <li><h3 class="font-semibold text-white">Flexible Routine Builder</h3><p class="text-gray-400">Adaptable routines for changing schedules.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Advanced Features</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Jet Lag Mode</h3><p class="text-gray-400">Helps frequent travelers shift rhythms before flights.</p></li>
+                                    <li><h3 class="font-semibold text-white">Smart Home Integration</h3><p class="text-gray-400">Syncs smart lights and sounds with circadian cues.</p></li>
+                                    <li><h3 class="font-semibold text-white">Corporate Wellness Dashboard</h3><p class="text-gray-400">Aggregate data for employers to improve shift scheduling.</p></li>
+                                    <li><h3 class="font-semibold text-white">Healthcare Mode</h3><p class="text-gray-400">Support for conditions like insomnia and ADHD.</p></li>
+                                    <li><h3 class="font-semibold text-white">AI-Powered Nudges</h3><p class="text-gray-400">Proactive, real-time tips based on live biometric data.</p></li>
+                                    <li><h3 class="font-semibold text-white">Gamified Habit Builder</h3><p class="text-gray-400">Transform healthy habits into a game with rewards.</p></li>
+                                    <li><h3 class="font-semibold text-white">Genetic Analysis</h3><p class="text-gray-400">Integrates DNA data for precise chronotype predictions.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Core Enhancements</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">Smart Alarm</h3><p class="text-gray-400">Wakes you in lightest sleep phase.</p></li>
+                                    <li><h3 class="font-semibold text-white">Chronotype Scheduling</h3><p class="text-gray-400">Optimal times for work, study, exercise.</p></li>
+                                    <li><h3 class="font-semibold text-white">Dynamic CRS</h3><p class="text-gray-400">Hourly energy predictions.</p></li>
+                                    <li><h3 class="font-semibold text-white">Sleep Debt Tracker</h3><p class="text-gray-400">Calculates debt & recovery plan.</p></li>
+                                    <li><h3 class="font-semibold text-white">Blue-Light Tracker</h3><p class="text-gray-400">Warns if screen time exceeds safe levels.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item-inner">
+                            <div class="ai-image-container">
+                                
+                            </div>
+                            <div class="text-content">
+                                <h2 class="category-heading">Personalization & Coaching</h2>
+                                <ul class="feature-list">
+                                    <li><h3 class="font-semibold text-white">AI Circadian Coach</h3><p class="text-gray-400">Tailored advice for your fatigue.</p></li>
+                                    <li><h3 class="font-semibold text-white">Adaptive Recommendations</h3><p class="text-gray-400">Advice adjusts as you log habits.</p></li>
+                                    <li><h3 class="font-semibold text-white">Mind-Body Integration</h3><p class="text-gray-400">Mood journaling + guided meditations.</p></li>
+                                    <li><h3 class="font-semibold text-white">Personal Challenges</h3><p class="text-gray-400">"7-day screen curfew" streaks.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-arrow left" onclick="scrollGallery(-1)">&#10094;</div>
+                <div class="nav-arrow right" onclick="scrollGallery(1)">&#10095;</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-gray-900 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    const gallery = document.getElementById('gallery');
+    const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+    const numOriginalItems = 7; 
+    const numClonedItems = 2;
+    
+    // Initial scroll to show the first original item
+    gallery.scrollLeft = numClonedItems * items[0].offsetWidth;
+
+    function scrollGallery(direction) {
+        // Calculate the width of a single item, including padding
+        const itemWidth = items[0].offsetWidth; 
+        
+        // Scroll the gallery by one item width
+        gallery.scrollBy({
+            left: direction * itemWidth,
+            behavior: 'smooth'
+        });
+    }
+
+    gallery.addEventListener('scroll', () => {
+        const itemWidth = items[0].offsetWidth; 
+        const scrollLeft = gallery.scrollLeft;
+
+        // Reset scroll position for infinite loop effect
+        if (scrollLeft <= (numClonedItems - 1) * itemWidth) {
+            // Scrolled left past the beginning, jump to the end of original items
+            gallery.scrollLeft = (numOriginalItems + numClonedItems - 1) * itemWidth;
+        } else if (scrollLeft >= (numOriginalItems + numClonedItems) * itemWidth) {
+            // Scrolled right past the end, jump to the beginning of original items
+            gallery.scrollLeft = numClonedItems * itemWidth;
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered CRS Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+        }
+        .quiz-card {
+            background-color: #1f2937;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        /* Style for radio buttons and select options */
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 1.5em;
+            height: 1.5em;
+            border: 2px solid #555;
+            border-radius: 50%;
+            margin-right: 0.5em;
+            cursor: pointer;
+            position: relative;
+            outline: none;
+        }
+        input[type="radio"]:checked {
+            border-color: #a78bfa;
+        }
+        input[type="radio"]:checked::before {
+            content: '';
+            width: 0.7em;
+            height: 0.7em;
+            background-color: #a78bfa;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+            font-weight: 500;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5);
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'discover' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back</a>
+                <a href="{% url 'home' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-6">
+                AI-Powered CRS Test
+            </h1>
+            <p class="text-lg text-gray-400 mb-8">
+                Answer a few questions to get your personalized Circadian Rhythm Score. Our AI will analyze your data and provide a detailed report.
+            </p>
+        </div>
+
+        <div id="quiz-form-container" class="quiz-card p-8">
+            <form method="post" action="{% url 'crs_ai' %}" class="space-y-6 text-left">
+                {% csrf_token %}
+                
+                <h2 class="text-xl font-bold text-white mb-4">Daily Habits</h2>
+                <div class="form-field">
+                    <label for="id_sleep_time" class="form-label">1. What time did you go to bed last night?</label>
+                    <input type="time" name="sleep_time" id="id_sleep_time" class="form-input" required>
+                </div>
+                <div class="form-field">
+                    <label for="id_wake_time" class="form-label">2. What time did you wake up this morning?</label>
+                    <input type="time" name="wake_time" id="id_wake_time" class="form-input" required>
+                </div>
+                <div class="form-field">
+                    <label class="form-label">3. How would you rate your energy level this morning?</label>
+                    <div class="flex items-center space-x-4 mt-2">
+                        <label for="id_energy_level_0" class="flex items-center text-white">
+                            <input type="radio" id="id_energy_level_0" name="energy_level" value="low" required> Low
+                        </label>
+                        <label for="id_energy_level_1" class="flex items-center text-white">
+                            <input type="radio" id="id_energy_level_1" name="energy_level" value="medium"> Medium
+                        </label>
+                        <label for="id_energy_level_2" class="flex items-center text-white">
+                            <input type="radio" id="id_energy_level_2" name="energy_level" value="high"> High
+                        </label>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="id_sunlight_time" class="form-label">4. How many minutes of natural sunlight did you get today?</label>
+                    <input type="number" name="sunlight_time" id="id_sunlight_time" class="form-input" required>
+                </div>
+                <div class="form-field">
+                    <label for="id_exercise_time" class="form-label">5. How many minutes did you exercise today?</label>
+                    <input type="number" name="exercise_time" id="id_exercise_time" class="form-input">
+                </div>
+                <div class="form-field">
+                    <label for="id_last_meal_time" class="form-label">6. What time was your last meal or snack before bed?</label>
+                    <input type="time" name="last_meal_time" id="id_last_meal_time" class="form-input">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">7. How would you rate your stress level today?</label>
+                    <div class="flex items-center space-x-4 mt-2">
+                        <label for="id_stress_level_0" class="flex items-center text-white">
+                            <input type="radio" id="id_stress_level_0" name="stress_level" value="low" required> Low
+                        </label>
+                        <label for="id_stress_level_1" class="flex items-center text-white">
+                            <input type="radio" id="id_stress_level_1" name="stress_level" value="medium"> Medium
+                        </label>
+                        <label for="id_stress_level_2" class="flex items-center text-white">
+                            <input type="radio" id="id_stress_level_2" name="stress_level" value="high"> High
+                        </label>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-bold text-white mb-4 mt-8">Lifestyle & Health</h2>
+                <div class="form-field">
+                    <label class="form-label">8. What is your typical work schedule?</label>
+                    <div class="flex flex-col space-y-2 mt-2">
+                        <label for="id_work_schedule_0" class="flex items-center text-white">
+                            <input type="radio" id="id_work_schedule_0" name="work_schedule" value="regular"> Regular (9-5)
+                        </label>
+                        <label for="id_work_schedule_1" class="flex items-center text-white">
+                            <input type="radio" id="id_work_schedule_1" name="work_schedule" value="shift"> Shift work
+                        </label>
+                        <label for="id_work_schedule_2" class="flex items-center text-white">
+                            <input type="radio" id="id_work_schedule_2" name="work_schedule" value="irregular"> Irregular hours
+                        </label>
+                        <label for="id_work_schedule_3" class="flex items-center text-white">
+                            <input type="radio" id="id_work_schedule_3" name="work_schedule" value="wfh"> Work from home
+                        </label>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="id_dietary_habits" class="form-label">9. Briefly describe your dietary habits (e.g., intermittent fasting, keto, vegan).</label>
+                    <textarea name="dietary_habits" id="id_dietary_habits" rows="3" class="form-textarea"></textarea>
+                </div>
+                <div class="form-field">
+                    <label for="id_medication" class="form-label">10. Are you currently taking any medication that might affect your sleep?</label>
+                    <textarea name="medication" id="id_medication" rows="3" class="form-textarea"></textarea>
+                </div>
+
+                <button type="submit" class="w-full mt-8 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Get My CRS
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-gray-900 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

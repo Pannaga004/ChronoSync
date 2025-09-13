@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover ChronoSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+        }
+        .crs-card {
+            background-color: #1f2937;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+        }
+        .crs-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px 10px rgba(124, 58, 237, 0.5), 0 0 40px 20px rgba(124, 58, 237, 0.3);
+            z-index: 10;
+        }
+        .crs-heading {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #a78bfa;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .ai-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .ai-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(50%);
+        }
+        .text-content {
+            position: relative;
+            z-index: 1;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+        .animated-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animated-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- New Floating Box Styling --- */
+        .floating-box {
+            background: #1f2937;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .floating-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px 5px rgba(124, 58, 237, 0.5), 0 0 30px 10px rgba(124, 58, 237, 0.3);
+        }
+        .floating-box-icon {
+            color: #a78bfa;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <a href="{% url 'home' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Back to Home</a>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-6 animated-element">
+                Discover the Power of ChronoSync
+            </h1>
+            <p class="text-lg text-gray-400 mb-8 animated-element" style="transition-delay: 0.2s;">
+                Our innovative platform combines cutting-edge AI and IoT technology to provide a personalized, comprehensive solution for your circadian rhythm. Say goodbye to fatigue and hello to peak performance.
+            </p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 my-12 text-center text-sm">
+                <div class="floating-box animated-element" style="transition-delay: 0.4s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 floating-box-icon mx-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M18.75 6.75h-3.5a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 .75.75h3.5a.75.75 0 0 0 .75-.75V7.5a.75.75 0 0 0-.75-.75Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75h3.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H3a.75.75 0 0 1-.75-.75V7.5a.75.75 0 0 1 .75-.75Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18V3" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 16.5h-3.5a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 .75.75h3.5a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 0-.75-.75Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5h3.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H3a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 .75-.75Z" />
+                    </svg>
+                    <h3 class="font-semibold text-white mt-4">Sunlight Tracker</h3>
+                    <p class="mt-1 text-gray-400 text-xs">Log your daily sunlight to optimize your rhythm.</p>
+                </div>
+                <div class="floating-box animated-element" style="transition-delay: 0.5s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 floating-box-icon mx-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75a2.25 2.25 0 0 1 2.25-2.25h15a2.25 2.25 0 0 1 2.25 2.25Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m0 0a2.25 2.25 0 0 0 2.25 2.25h15a2.25 2.25 0 0 0 2.25-2.25M6.75 10.5h10.5M6.75 13.5h10.5M6.75 16.5h10.5" />
+                    </svg>
+                    <h3 class="font-semibold text-white mt-4">Sleep & Wake Logger</h3>
+                    <p class="mt-1 text-gray-400 text-xs">Manually track your sleep patterns over time.</p>
+                </div>
+                <div class="floating-box animated-element" style="transition-delay: 0.6s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 floating-box-icon mx-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 0 1-9-9c0-2.316.71-4.469 1.947-6.223M12 21a9 9 0 0 0 9-9c0-2.316-.71-4.469-1.947-6.223M12 21a9 9 0 0 0 9-9c0-2.316-.71-4.469-1.947-6.223M12 3a9 9 0 0 1 9 9c0 2.316-.71 4.469-1.947 6.223M12 3a9 9 0 0 0-9 9c0 2.316.71 4.469 1.947 6.223M12 3a9 9 0 0 0-9 9c0 2.316.71 4.469 1.947 6.223M12 3a9 9 0 0 1 9-9c0-2.316-.71-4.469-1.947-6.223m-4.5 4.5h-.008v-.008H16.5v.008ZM16.5 12h-.008v-.008H16.5v.008ZM16.5 16.5h-.008v-.008H16.5v.008Z" />
+                    </svg>
+                    <h3 class="font-semibold text-white mt-4">Mindful Wind-Down</h3>
+                    <p class="mt-1 text-gray-400 text-xs">AI-guided breathing to prepare you for sleep.</p>
+                </div>
+                <div class="floating-box animated-element" style="transition-delay: 0.7s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 floating-box-icon mx-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25a9.75 9.75 0 0 1 9.75 9.75m0 0a9.75 9.75 0 0 1-9.75 9.75m0-19.5a9.75 9.75 0 0 1-9.75 9.75m0 0a9.75 9.75 0 0 1 9.75 9.75" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25v20M12 12a9.75 9.75 0 0 1-9.75 9.75m0 0a9.75 9.75 0 0 1 9.75-9.75m0 0a9.75 9.75 0 0 0 9.75-9.75m0 0a9.75 9.75 0 0 0-9.75 9.75" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 12a9.75 9.75 0 0 1 9.75-9.75m0 0a9.75 9.75 0 0 1-9.75 9.75m0 0a9.75 9.75 0 0 0-9.75 9.75" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 12a9.75 9.75 0 0 0 9.75 9.75m0 0a9.75 9.75 0 0 0-9.75-9.75m0 0a9.75 9.75 0 0 1-9.75-9.75" />
+                    </svg>
+                    <h3 class="font-semibold text-white mt-4">Nutrition Insights</h3>
+                    <p class="mt-1 text-gray-400 text-xs">Understand how your diet impacts your energy.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mt-12">
+                <div class="crs-card animated-element" style="transition-delay: 0.8s;">
+                    <div class="ai-image-container">
+                        <img src="https://googleusercontent.com/image_generation_content/0" class="ai-image" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h2 class="crs-heading">AI-Powered CRS</h2>
+                        <ul class="feature-list space-y-2">
+                            <li><h3 class="font-semibold text-white">Dynamic CRS</h3><p class="text-gray-400 text-sm">AI provides hourly energy predictions and a real-time score to guide your day.</p></li>
+                            <li><h3 class="font-semibold text-white">Adaptive Recommendations</h3><p class="text-gray-400 text-sm">Advice adjusts as you log habits, with machine learning personalizing your experience.</p></li>
+                            <li><h3 class="font-semibold text-white">Mindful Wind-Down Mode</h3><p class="text-gray-400 text-sm">AI-guided breathing and meditation to prepare you for sleep.</p></li>
+                            <li><h3 class="font-semibold text-white">Caffeine & Nutrition Insights</h3><p class="text-gray-400 text-sm">AI analysis of your diet's impact on your sleep and energy levels.</p></li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="{% url 'crs_ai' %}" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                                Take the Test
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crs-card animated-element" style="transition-delay: 0.9s;">
+                    <div class="ai-image-container">
+                        <img src="https://googleusercontent.com/image_generation_content/1" class="ai-image" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h2 class="crs-heading">Raw Data CRS</h2>
+                        <ul class="feature-list space-y-2">
+                            <li><h3 class="font-semibold text-white">Sunlight Tracker</h3><p class="text-gray-400 text-sm">Log your daily sunlight exposure to get personalized recommendations.</p></li>
+                            <li><h3 class="font-semibold text-white">Sleep & Wake Logger</h3><p class="text-gray-400 text-sm">Manually input your sleep and wake times to track your patterns over time.</p></li>
+                            <li><h3 class="font-semibold text-white">Suggestion Engine</h3><p class="text-gray-400 text-sm">Based on your logged data, the tool provides suggestions to improve your rhythm.</p></li>
+                            <li><h3 class="font-semibold text-white">Personal Challenges</h3><p class="text-gray-400 text-sm">Set goals like a "7-day screen curfew" based on your own data tracking.</p></li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="{% url 'crs_raw' %}" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                                Take the Test
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-gray-900 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

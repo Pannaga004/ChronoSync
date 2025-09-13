@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ChronoSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+        .main-content {
+            min-height: calc(100vh - 8rem); /* Adjust based on header/footer size */
+        }
+
+        /* Animated Section Styles */
+        .animated-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animated-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glow effect for interactive elements */
+        .glow-on-hover {
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .glow-on-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6), 0 0 30px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Table specific styles for better borders */
+        .log-table th, .log-table td {
+            border-bottom: 1px solid rgba(113, 128, 150, 0.2); /* Softer border color */
+        }
+        .log-table tbody tr:last-child td {
+            border-bottom: none; /* No border for the last row */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <span class="text-lg text-gray-300">Hello, {{ user.username|default:"Guest" }}</span> {# Use default for static page testing #}
+                <a href="{% url 'logout' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 glow-on-hover">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 main-content">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 animated-section" style="transition-delay: 0.1s;">
+                Welcome to your <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-500">Dashboard</span>, {{ user.username|default:"Chrono-User" }}
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto animated-section" style="transition-delay: 0.2s;">
+                This is your personalized space. Here you can review your recent activity and track your progress.
+            </p>
+            
+            <a href="{% url 'home' %}" class="inline-block bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg transform hover:scale-105 glow-on-hover animated-section" style="transition-delay: 0.3s;">
+                Go back to Home
+            </a>
+
+            <div class="mt-16 bg-gray-800 rounded-lg shadow-xl overflow-hidden animated-section glow-on-hover" style="transition-delay: 0.4s;">
+                <h2 class="text-2xl font-bold text-purple-400 p-6 border-b border-gray-700">Your Last 7 Days of Input (Sample Data)</h2>
+                <div class="p-6">
+                    <table class="min-w-full text-left text-gray-300 log-table">
+                        <thead>
+                            <tr class="text-sm font-semibold uppercase tracking-wider">
+                                <th class="py-3 px-4">Date</th>
+                                <th class="py-3 px-4">Sleep Time</th>
+                                <th class="py-3 px-4">Wake Time</th>
+                                <th class="py-3 px-4">Energy Level</th>
+                                <th class="py-3 px-4">Sunlight (min)</th>
+                                <th class="py-3 px-4">Exercise (min)</th>
+                                <th class="py-3 px-4">Stress Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# Sample Data Rows #}
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 13</td>
+                                <td class="py-3 px-4 text-sm">23:00</td>
+                                <td class="py-3 px-4 text-sm">07:00</td>
+                                <td class="py-3 px-4 text-sm">High</td>
+                                <td class="py-3 px-4 text-sm">30</td>
+                                <td class="py-3 px-4 text-sm">60</td>
+                                <td class="py-3 px-4 text-sm">Low</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 12</td>
+                                <td class="py-3 px-4 text-sm">22:45</td>
+                                <td class="py-3 px-4 text-sm">06:30</td>
+                                <td class="py-3 px-4 text-sm">Medium</td>
+                                <td class="py-3 px-4 text-sm">25</td>
+                                <td class="py-3 px-4 text-sm">45</td>
+                                <td class="py-3 px-4 text-sm">Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 11</td>
+                                <td class="py-3 px-4 text-sm">23:30</td>
+                                <td class="py-3 px-4 text-sm">07:15</td>
+                                <td class="py-3 px-4 text-sm">High</td>
+                                <td class="py-3 px-4 text-sm">40</td>
+                                <td class="py-3 px-4 text-sm">30</td>
+                                <td class="py-3 px-4 text-sm">Low</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 10</td>
+                                <td class="py-3 px-4 text-sm">23:00</td>
+                                <td class="py-3 px-4 text-sm">07:00</td>
+                                <td class="py-3 px-4 text-sm">Medium</td>
+                                <td class="py-3 px-4 text-sm">15</td>
+                                <td class="py-3 px-4 text-sm">0</td>
+                                <td class="py-3 px-4 text-sm">High</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 9</td>
+                                <td class="py-3 px-4 text-sm">22:00</td>
+                                <td class="py-3 px-4 text-sm">05:45</td>
+                                <td class="py-3 px-4 text-sm">Low</td>
+                                <td class="py-3 px-4 text-sm">5</td>
+                                <td class="py-3 px-4 text-sm">20</td>
+                                <td class="py-3 px-4 text-sm">Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-sm">Sep 8</td>
+                                <td class="py-3 px-4 text-sm">23:15</td>
+                                <td class="py-3 px-4 text-sm">07:00</td>
+                                <td class="py-3 px-4 text-sm">High</td>
+                                <td class="py-3 px-4 text-sm">35</td>
+                                <td class="py-3 px-4 text-sm">50</td>
+                                <td class="py-3 px-4 text-sm">Low</td>
+                            </tr>
+                            <tr class="last:border-b-0">
+                                <td class="py-3 px-4 text-sm">Sep 7</td>
+                                <td class="py-3 px-4 text-sm">22:30</td>
+                                <td class="py-3 px-4 text-sm">06:45</td>
+                                <td class="py-3 px-4 text-sm">High</td>
+                                <td class="py-3 px-4 text-sm">20</td>
+                                <td class="py-3 px-4 text-sm">30</td>
+                                <td class="py-3 px-4 text-sm">Low</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="py-8 bg-gray-900 animated-section" style="transition-delay: 0.5s;">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated-section');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // When 10% of the element is visible, trigger the animation
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

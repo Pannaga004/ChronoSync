@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoSync: Realign Your Biological Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #d1d5db;
+            overflow-x: hidden;
+        }
+        .glow-effect {
+            box-shadow: 0 0 10px 5px rgba(124, 58, 237, 0.5), 0 0 20px 10px rgba(124, 58, 237, 0.3);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 15px 7px rgba(124, 58, 237, 0.7), 0 0 30px 15px rgba(124, 58, 237, 0.5);
+        }
+        .animated-section,
+        .animated-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased">
+
+    <header class="p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-xl font-bold text-gray-50">ChronoSync</span>
+            </div>
+            
+            <div class="flex space-x-4 items-center">
+                <a href="{% url 'chronopoints' %}" class="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M11.54 22.351a.75.75 0 0 0 1.08 0l3.75-3.75a.75.75 0 0 0-.215-1.047L14.25 16.5H20.25a.75.75 0 0 0 .75-.75V4.5a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v11.25c0 .025.011.05.021.075l3.75 3.75h.008ZM12 11.25v2.25m-1.5 0h3m-6-1.5h3m-3-3h3m-3-3h3m-3-3h3" clip-rule="evenodd" />
+                    </svg>
+                    <span>ChronoPoints</span>
+                </a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Logout</a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Sign Up</a>
+                    <a href="{% url 'login' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-16 md:py-24 animated-section">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 animated-item" style="transition-delay: 0.1s;">
+                Realign Your Life with <br class="hidden md:inline">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-500">ChronoSync</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto animated-item" style="transition-delay: 0.2s;">
+                An AI + IoT powered platform that restores your natural circadian rhythm,
+                combating fatigue, improving productivity, and enhancing well-being.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 animated-item" style="transition-delay: 0.3s;">
+                <a href="{% url 'discover' %}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg transform hover:scale-105">
+                    Discover the Solution
+                </a>
+                <a href="{% url 'features' %}" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg transform hover:scale-105">
+                    Explore Features
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <section id="problem" class="py-16 bg-gray-800 animated-section">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animated-item" style="transition-delay: 0.1s;">The Silent Epidemic</h2>
+            <p class="text-lg text-gray-400 mb-8 max-w-4xl mx-auto animated-item" style="transition-delay: 0.2s;">
+                Over 1 billion people worldwide suffer from circadian rhythm disruption due to shift work, screen overexposure, jet lag, and urban light pollution. This leads to fatigue, depression, reduced productivity, and long-term health risks.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect animated-item" style="transition-delay: 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-purple-500 mx-auto mb-4">
+                        <path d="M11.47 3.864a.75.75 0 0 0-1.22-.518l-8.75 8.75a.75.75 0 0 0 0 1.06l8.75 8.75a.75.75 0 0 0 1.22-.518V19.5a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75h-9a.75.75 0 0 0-.75.75v-2.136Z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-white mb-2">Fragmented Solutions</h3>
+                    <p class="text-gray-400">Current tools are disconnected and fail to provide a personalized, holistic approach.</p>
+                </div>
+                <div class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect animated-item" style="transition-delay: 0.4s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-purple-500 mx-auto mb-4">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.43-1.026 3.77-.966 1.34.06 2.615.346 3.822.846.104.045.2.113.296.202a.75.75 0 0 1-.296 1.285l-.01.002c-1.127-.478-2.348-.79-3.606-.723-1.259.066-2.477.38-3.58.913l-.04.02-.007.003-.024.011a.75.75 0 0 1-.502-.853Z" clip-rule="evenodd" />
+                        <path d="M12 5.25a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Z" />
+                        <path d="M18.917 11.25a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75Z" />
+                        <path d="M15 18.75a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 .75.75Z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-white mb-2">Health Risks</h3>
+                    <p class="text-gray-400">Untreated rhythm disruption leads to fatigue, depression, and long-term health complications.</p>
+                </div>
+                <div class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect animated-item" style="transition-delay: 0.5s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-purple-500 mx-auto mb-4">
+                        <path d="M14.618 10.518a.75.75 0 0 1-.167 1.052l-2.49 1.66a.75.75 0 0 1-1.173-.88l1.371-3.656a.75.75 0 0 1 1.259.458ZM14.47 16.32a.75.75 0 0 0-.88.293l-.647 1.107a.75.75 0 0 0 1.052 1.166l.647-1.107a.75.75 0 0 0-.292-1.166ZM12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM6.53 7.828a.75.75 0 0 0-.709.832l1.66 2.491a.75.75 0 0 0 1.166-1.052L7.33 7.625a.75.75 0 0 0-.799-.138Zm-2.31 4.542a.75.75 0 0 0-.292 1.166l.647 1.107a.75.75 0 0 0 1.166-.458l-.647-1.107a.75.75 0 0 0-1.174-.601ZM6.892 17.56a.75.75 0 0 0-.168.497.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 0-1.5h-.75a.75.75 0 0 0-.582.253Zm10.456-11.23a.75.75 0 0 0-.168.497.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 0-1.5h-.75a.75.75 0 0 0-.582.253Z" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-white mb-2">Reduced Productivity</h3>
+                    <p class="text-gray-400">Disrupted sleep patterns and fatigue directly impact focus, creativity, and overall output.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution" class="py-16 md:py-24 animated-section">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-1 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 text-center animated-item" style="transition-delay: 0.1s;">The ChronoSync Solution</h2>
+                    <p class="text-lg text-gray-400 mb-6 text-center animated-item" style="transition-delay: 0.2s;">
+                        ChronoSync is an AI + IoT platform that realigns your biological clock with real-time data and personalized guidance. We provide a holistic approach to restore your natural rhythm.
+                    </p>
+                    <ul class="space-y-4 text-gray-300 max-w-2xl mx-auto">
+                        <li class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect flex items-start animated-item" style="transition-delay: 0.3s;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400 mt-1 mr-4 flex-shrink-0">
+                                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.676-1.676a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3 class="font-semibold text-white">Circadian Rhythm Score (CRS)</h3>
+                                <p class="text-sm text-gray-400">A daily score based on your sleep, light exposure, mood, and lifestyle to help you track improvements.</p>
+                            </div>
+                        </li>
+                        <li class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect flex items-start animated-item" style="transition-delay: 0.4s;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400 mt-1 mr-4 flex-shrink-0">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3 class="font-semibold text-white">Real-Time Recommendations</h3>
+                                <p class="text-sm text-gray-400">Get personalized guidance, like "Get 20 min of sunlight now," to stay aligned.</p>
+                            </div>
+                        </li>
+                        <li class="p-6 bg-gray-900 rounded-xl shadow-lg glow-effect flex items-start animated-item" style="transition-delay: 0.5s;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-400 mt-1 mr-4 flex-shrink-0">
+                                <path d="M11.47 3.864a.75.75 0 0 0-1.22-.518l-8.75 8.75a.75.75 0 0 0 0 1.06l8.75 8.75a.75.75 0 0 0 1.22-.518V19.5a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75h-9a.75.75 0 0 0-.75.75v-2.136Z" />
+                            </svg>
+                            <div>
+                                <h3 class="font-semibold text-white">IoT Integration</h3>
+                                <p class="text-sm text-gray-400">Optional syncing with smart lights and alarms for an immersive experience.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 bg-gray-900 animated-section">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
+            <p>&copy; 2025 ChronoSync. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.animated-section');
+            const items = document.querySelectorAll('.animated-item');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Adjust this value to change when the effect triggers
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            items.forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
